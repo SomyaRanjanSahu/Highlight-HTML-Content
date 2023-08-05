@@ -1,0 +1,23 @@
+{
+  "name": "assignment-question-2",
+  "version": "1.0.0",
+  "description": "You are required to write a pure JavaScript function called `highlightHTMLContent` that accepts three inputs and returns the expected result. Please follow the instructions below:",
+  "main": "highlightContent.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SomyaRanjanSahu/assignment-question-2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SomyaRanjanSahu/assignment-question-2/issues"
+  },
+  "homepage": "https://github.com/SomyaRanjanSahu/assignment-question-2#readme",
+  "devDependencies": {
+    "jest": "^29.6.2"
+  }
+}
