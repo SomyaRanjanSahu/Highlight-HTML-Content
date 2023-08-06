@@ -6,41 +6,54 @@
  * @returns {string} Using the positions in plainText, find the appropriate positions in htmlContent, highlight the content and return it
  */
 
+// Approach:
+
+// - sort the plainTextPositions based on start position.
+// - start iterating htmlContent
+// - keep inserting its values into result string
+// - start iterating plainText whenever its index value is equal to htmlContent index value.
+// - while iterating keep checking for plainTextPosition arrays start value
+// - when start value is equal to plainText index , insert <mark> tag in the result string before inserting the htmlContent value.
+// - now check for end value, when end index is equal to plainText index, insert </mark> tag in the result string. 
+// - similarly do this for other array elements of painTextPositions
+// - return the final string 
+
 function highlightHTMLContent(htmlContent, plainText, plainTextPositions) {
-    const startTag = `<span class="${plainTextPositions}">`;
-    const endTag = "</span>";
+    // Sorting the plainTextPositions array in ascending order based on the start property
+    plainTextPositions.sort((a, b) => a.start - b.start);
 
-    let modifiedHTML = htmlContent;
+    let result = ""; // Initializing an empty string to store the final result
 
-    // To find all occurrences of plainText in htmlContent
-    let index = modifiedHTML.indexOf(plainText);
-    while (index !== -1) {
-        // Inserting the highlight tags at the found position
-        modifiedHTML =
-            modifiedHTML.slice(0, index) +
-            startTag +
-            modifiedHTML.slice(index, index + plainText.length) +
-            endTag +
-            modifiedHTML.slice(index + plainText.length);
+    let htmlContentIndex = 0; // Initializing a counter to traverse htmlContent
+    let plainTextIndex = 0; // Initializing a counter to traverse plainText
 
-        // To move to the next occurrence
-        index = modifiedHTML.indexOf(plainText, index + startTag.length + endTag.length);
+    while (htmlContentIndex < htmlContent.length) {
+        for (let k = 0; k < plainTextPositions.length; k++) {
+            // If the current position matches the start position, inserting an opening <mark> tag
+            if (plainTextPositions[k].start === plainTextIndex) {
+                result += "<mark>";
+            }
+            // If the current position matches the end position, inserting a closing </mark> tag
+            else if (plainTextPositions[k].end === plainTextIndex) {
+                result += "</mark>";
+            }
+        }
+
+        // Adding the current character from htmlContent to the answer
+        result += htmlContent.charAt(htmlContentIndex);
+
+        // If the current character from htmlContent matches the current character from plainText,
+        // incrementing the plainText counter (plainTextIndex) to indicate a matching character
+        if (htmlContent.charAt(htmlContentIndex) === plainText.charAt(plainTextIndex)) {
+            plainTextIndex++;
+        }
+
+        // Moving to the next character in htmlContent
+        htmlContentIndex++;
     }
 
-    return modifiedHTML;
+    // Return the final result
+    return result;
 }
-
-console.log(
-    highlightHTMLContent(
-        "<div><p>HTML content</p><span> HTML</span></div><div><p>HTML content</p><span> HTML</span></div>",
-        "HTML content HTMLHTML content HTML",
-        [
-            { start: 0, end: 4 },
-            { start: 12, end: 17 },
-            { start: 17, end: 21 },
-            { start: 30, end: 34 },
-        ]
-    )
-);
 
 module.exports = highlightHTMLContent;
